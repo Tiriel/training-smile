@@ -4,12 +4,17 @@
 
 {% block body %}
 <div class="example-wrapper">
+    {% if movie.id is not null %}
     <h1>Movie : {{ movie.title }}</h1>
 
+    <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="float-end w-50">
     <ul>
         <li>Released : {{ movie.releasedAt|date('Y M d') }}</li>
-        <li>Genres : {{ movie.genres|join(', ') }}</li>
+        <li>Country : {{ movie.country }}</li>
+{#        <li>Genres : {{ movie.genres|join(', ') }}</li>#}
     </ul>
-    <img src="{{ asset('build/images/31116_JssY.jpeg') }}" alt="titre">
+    {% else %}
+        <p>Movie not found.</p>
+    {% endif %}
 </div>
 {% endblock %}
