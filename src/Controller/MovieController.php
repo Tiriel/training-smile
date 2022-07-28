@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Consumer\OMDbApiConsumer;
-use App\Repository\MovieRepository;
+use App\Provider\MovieProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +19,10 @@ class MovieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id<\d+>?1}', name: 'details')]
-    public function details(int $id, MovieRepository $repository): Response
+    #[Route('/{title}', name: 'details')]
+    public function details(string $title, MovieProvider $provider): Response
     {
-        $movie = $repository->find($id);
+        $movie = $provider->getMovieByTitle($title);
 
         return $this->render('movie/details.html.twig', [
             'movie' => $movie,

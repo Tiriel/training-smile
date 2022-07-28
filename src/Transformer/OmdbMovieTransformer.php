@@ -6,7 +6,7 @@ use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Repository\GenreRepository;
 
-class MovieTransformer
+class OmdbMovieTransformer
 {
     public function __construct(private GenreRepository $genreRepository)
     {}
@@ -24,7 +24,7 @@ class MovieTransformer
         ;
 
         foreach ($genres as $genre) {
-            $genreEnt = $this->genreRepository->findBy(['name' => $genre]) ?? (new Genre())
+            $genreEnt = $this->genreRepository->findOneBy(['name' => $genre]) ?? (new Genre())
                 ->setName($genre)
                 ->setPoster($data['Poster'])
             ;
