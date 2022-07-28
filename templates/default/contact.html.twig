@@ -1,7 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block body %}
-    <h1>Contact</h1>
+    <section class="w-50 m-auto">
+        <h1>Contact</h1>
+
+        {{ form_start(contactForm) }}
+        {{ form_widget(contactForm) }}
+        <button class="btn">{{ button_label|default('Send') }}</button>
+        {{ form_end(contactForm) }}
+    </section>
+
 {% endblock %}

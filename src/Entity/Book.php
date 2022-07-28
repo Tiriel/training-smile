@@ -6,8 +6,11 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[UniqueEntity('isbn')]
 class Book
 {
     #[ORM\Id]
@@ -15,9 +18,11 @@ class Book
     #[ORM\Column()]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\Isbn]
     #[ORM\Column(length: 20)]
     private ?string $isbn = null;
 
@@ -27,6 +32,7 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $author = null;
 
+    #[Assert\Unique]
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Comment::class, cascade: ['persist'], fetch: 'EAGER', orphanRemoval: true)]
     private Collection $comments;
 
