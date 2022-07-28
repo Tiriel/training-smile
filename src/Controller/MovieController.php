@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Consumer\OMDbApiConsumer;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,8 +29,10 @@ class MovieController extends AbstractController
         ]);
     }
 
-    public function menu(int $id)
+    #[Route('/test', name: 'test')]
+    public function menu(OMDbApiConsumer $consumer)
     {
+        dd($consumer->consume(OMDbApiConsumer::MODE_TITLE, 'Star Wars'));
         return '';
     }
 }
