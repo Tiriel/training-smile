@@ -20,6 +20,8 @@ class OmdbMovieTransformer
             ->setPoster($data['Poster'])
             ->setCountry($data['Country'])
             ->setReleasedAt(new \DateTimeImmutable($date))
+            ->setRated($data['Rated'])
+            ->setOmdbId($data['imdbID'])
             ->setPrice(5.0)
         ;
 

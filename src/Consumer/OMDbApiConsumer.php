@@ -3,6 +3,7 @@
 namespace App\Consumer;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OMDbApiConsumer
@@ -21,8 +22,14 @@ class OMDbApiConsumer
                 self::MODE_ID, self::MODE_TITLE, $type));
         }
 
-        return $this->omdbClient
+        $movie = $this->omdbClient
             ->request(Request::METHOD_GET, '', ['query' => [$type => $value]])
             ->toArray();
+
+        if (array_key_exists('Response', $movie) && $movie['Response'] === 'False') {
+            throw new NotFoundHttpException();
+        }
+
+        return $movie;
     }
 }

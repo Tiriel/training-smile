@@ -17,14 +17,24 @@ class MovieProvider
 
     public function getMovieByTitle(string $title)
     {
-        $movie = $this->movieRepository->findByLowerTitle($title) ??
-            $this->transformer->transform(
-                $this->consumer->consume(OMDbApiConsumer::MODE_TITLE, $title)
+        return $this->getOneMovie(OMDbApiConsumer::MODE_TITLE, $title);
+    }
+
+    public function getMovieById(string $id): Movie
+    {
+        return $this->getOneMovie(OMDbApiConsumer::MODE_ID, $id);
+    }
+
+    private function getOneMovie(string $mode, string $value)
+    {
+        $movie = $this->transformer->transform(
+                $this->consumer->consume($mode,  $value)
             );
 
-        if (!$movie->getId()) {
-            $this->movieRepository->add($movie, true);
+        if ($entity = $this->movieRepository->findOneBy(['title' => $movie->getTitle()])) {
+            return $entity;
         }
+        $this->movieRepository->add($movie, true);
 
         return $movie;
     }
