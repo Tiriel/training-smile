@@ -22,14 +22,14 @@ class OMDbApiConsumer
                 self::MODE_ID, self::MODE_TITLE, $type));
         }
 
-        $movie = $this->omdbClient
+        $data = $this->omdbClient
             ->request(Request::METHOD_GET, '', ['query' => [$type => $value]])
             ->toArray();
 
-        if (array_key_exists('Response', $movie) && $movie['Response'] === 'False') {
+        if (array_key_exists('Response', $data) && $data['Response'] === 'False') {
             throw new NotFoundHttpException();
         }
 
-        return $movie;
+        return $data;
     }
 }
