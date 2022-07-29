@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Security\Voter\BookVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,9 @@ class BookController extends AbstractController
     #[Route('/{id<\d+>?1}', name: 'fetch', methods: ['GET'])]
     public function fetch(int $id, BookRepository $repository): Response
     {
+        //if (!$this->isGranted('ROLE_ADMIN')) {
+        //    $this->denyAccessUnlessGranted(BookVoter::VIEW, $book);
+        //}
         return $this->render('book/index.html.twig', [
             'controller_name' => 'Book Fetch',
         ]);
@@ -37,6 +41,7 @@ class BookController extends AbstractController
         $bookForm->handleRequest($request);
 
         if ($bookForm->isSubmitted() && $bookForm->isValid()) {
+            $this->denyAccessUnlessGranted('ROLE_PUBLISHER');
             $repository->add($book, true);
 
             return $this->redirectToRoute('app_book_index');

@@ -57,6 +57,9 @@ class MovieFindCommand extends Command
             $method = 'getMovieBy' . \ucfirst($type);
             $movie = $this->provider->$method($value);
         } catch (\Exception $e) {
+            if ($output->isVerbose()) {
+                $io->warning($e->getMessage());
+            }
             $io->error('No movie found.');
 
             return Command::FAILURE;

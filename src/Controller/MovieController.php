@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Consumer\OMDbApiConsumer;
 use App\Provider\MovieProvider;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
