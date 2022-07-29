@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Consumer\OMDbApiConsumer;
 use App\Provider\MovieProvider;
+use App\Security\Voter\MovieVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ class MovieController extends AbstractController
     public function details(string $title, MovieProvider $provider): Response
     {
         $movie = $provider->getMovieByTitle($title);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
 
         return $this->render('movie/details.html.twig', [
             'movie' => $movie,

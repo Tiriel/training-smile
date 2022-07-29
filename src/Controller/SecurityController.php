@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,5 +30,16 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route('/make-admin', name: 'app_make_admin')]
+    public function makeAdmin(EntityManagerInterface $manager)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $user->addRole('ROLE_ADMIN');
+        $manager->flush();
+
+        return $this->redirectToRoute('app_default_index');
     }
 }

@@ -13,6 +13,7 @@
         <li>Released : {{ movie.releasedAt|date('Y M d') }}</li>
         <li>Country : {{ movie.country }}</li>
         <li>Genres : {{ movie.genres|reduce((carry, genre) => carry == '' ? carry ~ genre.name : carry ~ ', ' ~ genre.name, '') }}</li>
+        <li>Rated : {{ movie.rated }}</li>
     </ul>
     {% else %}
         <p>Movie not found.</p>
