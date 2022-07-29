@@ -2,13 +2,16 @@
 
 {% block title %}Hello DefaultController!{% endblock %}
 
-{% block body %}
-    <section class="bg-black h-100 p-5 mt-5">
+{% block header %}
+    {{ parent() }}
+    <section class="bg-black h-100 p-5">
         <div class="text-white text-center h-100">
             <h1 class="display-3 font-weight-bold m-0">SensioTV+</h1>
         </div>
     </section>
+{% endblock header %}
 
+{% block body %}
     <section class="container">
         <h2 class="text-center">Latest movies:</h2>
         <div class="row row-cols-3">
